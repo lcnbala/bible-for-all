@@ -1,0 +1,23 @@
+body {
+    color: #000;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%
+}
+
+.selected {
+    background-color: gray;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.verse:hover {
+    background-color: #99ff99;
+    cursor: pointer;
+}

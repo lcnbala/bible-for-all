@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Bible for all</title>
+        <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="/js/data.js"></script>
+        <script type="text/javascript" src="/js/en_kjv.js"></script>
+        <script type="text/javascript" src="/js/en_nasb.js"></script>
+        <script type="text/javascript" src="/js/ro_dcv.js"></script>
+        <script type="text/javascript" src="/js/jquery.highlight-3.js"></script>
+        <script type="text/javascript" src="/js/slimScroll.js"></script>
+        <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.copy.js"></script>
+        <link rel="stylesheet" href="/css/design.css" type="text/css"/>
+    </head>
+<body>
+    <div id="loading" align="center">Loading...</div>
+    <table width="100%" style="height:100%; display: none" id="table_main">
+        <tr>
+            <td colspan="3" valign="top" height="20" style="border-bottom: 2px; border-bottom-style: solid; border-bottom-color: #000000;">
+                <table width="100%" id="tabel_header">
+                    <tr>
+                        <td>
+                            <span>Bible version</span>
+                            <select name="bible" id="bible" style="padding: 3px;">
+                                <option value="en_kjv">English - KJV</option>
+                                <option value="en_nasb">English - NASB</option>
+                            </select>
+                            <input type="button" value="Read chapter" id="read" />
+                        </td>
+                        <td align="right">
+                            Search
+                            <input type="text" value="" name="search_text" id="search_text"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" style="background-color: #F2F2F2; border-right-style: solid; border-right-color: #000000; border-right: 2px;">
+                <div style="height: 100%; overflow-x: hidden; overflow-y: scroll;" id="div_books">
+                    <table width="110px" id="bible_books" cellspacing="0" border="0" cellpadding="2" id="table_books"></table>
+                </div>
+            </td>
+            <td valign="top" bgcolor="#F2F2F2" id="main_bible_chapters">
+                <div style="height: 100%; overflow-x: hidden; overflow-y: scroll;" id="div_chapters">
+                    <table id="bible_chapters" width="35px" cellspacing="0" border="0" cellpadding="2"></table>
+                </div>
+            </td>
+            <td width="100%" valign="top" id="main_bible_content">
+                <div style="height: 100%; overflow-y: scroll; overflow-x: hidden;" id="bible_content">
+                    <table width="100%" id="content"></table>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
