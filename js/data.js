@@ -116,7 +116,7 @@ $(document).ready(function() {
         $('#bible_chapters').html(opt);
 
 
-        $('#main_bible_content').html('<div style="height: 100%; overflow-y: scroll; overflow-x: hidden;" id="bible_content"><table width="100%" id="content"></table></div>');
+        $('#main_bible_content').html('<div id="bible_content"><table width="100%" id="content"></table></div>');
 
         loadBibleChapter(books[bookIndex], 1);
     });
@@ -148,7 +148,7 @@ $(document).ready(function() {
 										enqueue: true,
 										gender: 'female',
 										rate: 0.9,
-										
+
 
 									});
 									// break;
@@ -223,5 +223,13 @@ $(document).ready(function() {
 		loadBibleChapter(books[bookIndex], chapterIndex);
 	});	
 	
-	$('#bible').val(localStorage['bible_version']);	
+	$('#bible').val(localStorage['bible_version']);
+
+	var $window = $(window),
+		$stickyEl = $('#the-sticky-div'),
+		elTop = $stickyEl.offset().top;
+
+	$window.scroll(function() {
+		$stickyEl.toggleClass('sticky', $window.scrollTop() > elTop);
+	});
 });

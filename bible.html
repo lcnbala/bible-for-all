@@ -15,22 +15,26 @@
 <body>
     <div id="loading" align="center">Loading...</div>
 
-    <table id="tabel_header" style="width: 900px" align="center">
-        <tr>
-            <td align="center">
-                <select name="bible" id="bible">
-                    <option value="en_kjv" selected="selected">English - KJV</option>
-                    <option value="en_nasb">English - NASB</option>
-                </select>
+    <div class="sticky">
+        <table id="tabel_header" class="topHeader" align="center">
+            <tr>
+                <td align="center">
+                    <select name="bible" id="bible">
+                        <option value="en_kjv" selected="selected">English - KJV</option>
+                        <option value="en_nasb">English - NASB</option>
+                    </select>
 
-                <select id="bible_books"></select>
-                <select id="bible_chapters"></select>
-                <input type="button" value="Read chapter" id="read" />
-                <input type="text" value="" name="search_text" id="search_text" placeholder="Search"/>
-            </td>
-        </tr>
-    </table>
-    <hr size="1" />
+                    <select id="bible_books"></select>
+                    <select id="bible_chapters"></select>
+                    <input type="button" value="Read chapter" id="read" />
+                    <input type="text" value="" name="search_text" id="search_text" placeholder="Search"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <br />
+    <br />
     <br />
     <div style="width: 900px; margin: auto;" id="main_bible_content">
         <div id="bible_content">

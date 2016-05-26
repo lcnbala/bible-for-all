@@ -19,7 +19,7 @@ html, body {
 
 .verse {
     padding: 6px;
-    font-family: "Helvetica Neue",Arial,"Liberation Sans",FreeSans,sans-serif;
+    font-family: "Helvetica Neue", Arial, "Liberation Sans", FreeSans, sans-serif;
     font-size: 19px;
     font-weight: normal;
     line-height: 2em;
@@ -29,4 +29,22 @@ html, body {
 .verse:hover {
     background-color: #99ff99;
     cursor: pointer;
+}
+
+.sticky {
+    align-content: center;
+    position: fixed;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+    top: 0;
+    z-index: 100;
+    vertical-align: middle;
+    height: 36px;
+}
+
+.topHeader {
+    width: 900px;
+    top: 12%;
+    position: relative
 }
