@@ -20,12 +20,12 @@ function add_remove(version, action) {
 
 function add_books() {
 	for (var i = 0; i < books.length; i++)
-		$('#bible_books').append($('<tr><td id="book_' + i + '">' + books[i] + "</td></tr>"));
+		$('#bible_books').append('<option value="book_' + i + '">' + books[i] + "</option>");
 }
 
 function add_chapters() {
 	for (var i = 1; i <= 50; i++)
-		$('#bible_chapters').append($('<tr><td id="chapter_' + i + '">' + i + "</td></tr>"));
+		$('#bible_chapters').append('<option value="chapter_' + i + '">' + i + "</option>");
 }
 
 function getBibleView() {
@@ -52,19 +52,11 @@ function afterInitialization() {
 
     $('#loading').hide();
     $('#table_main').show();
-
-    
-    $('#div_books').slimScroll({
-        height: $(window).height() - $('#tabel_header').height() - 12
-    });
-
-    $('#div_chapters').slimScroll({
-        height: $(window).height() - $('#tabel_header').height() - 12
-    });
 }
-function onSuccess(tx, r) {
 
+function onSuccess(tx, r) {
     afterInitialization();
+	$("#bible").val($("#bible option:first").val());
 }
 
 function initialize() {
@@ -97,13 +89,10 @@ function loadBibleChapter(book, chapter) {
                         $('#content').html('<tr><td><h2>' + book + ' ' + chapter + '</h2>');
                         var verse = '';
 						for (var i = 0; i < total; i++) {			
-							verse += '<span class="verse"><b>' + ' ' + (i + 1) + '</b> ' + result.rows.item(i).text + '<br />' + '</span>';
+							verse += '<div class="verse"><b>' + ' ' + (i + 1) + '</b> ' + result.rows.item(i).text + '<br />' + '</div>';
 						}   
                         $('#content').append(verse + '</td></tr>');
-                        $('#bible_content').slimScroll({
-                            height: $(window).height() - $('#tabel_header').height() - 12
-                        });
-					}			
+					}
 				)
 			}); 
 		}
@@ -114,61 +103,63 @@ $(document).ready(function() {
 
     initialize();
 
-    $(document).on('mouseover', "[id^='book']", function (event) {
-        $(this).css('cursor', 'pointer');
-    });
+    $(document).on('change', "#bible_books", function (event) {
 
-    $(document).on('mouseover', "[id^='chapter']", function (event) {
-        $(this).css('cursor', 'pointer');
-    });
-
-    $(document).on('click', "[id^='book']", function (event) {
-        $('#bible_books .selected').removeClass('selected');
-        $(this).css('cursor', 'pointer');
-        var bookId = $(this).attr("id").replace('book_', '');
-        $("#book_" + bookId).addClass('selected');
-
-        var bookIndex = $(this).attr("id").replace('book_', '');
+        var bookIndex = $(this).find(":selected").val().replace('book_', '');
         var chaptersTotal = chapters[bookIndex];
 
         var opt = '';
         for (var i = 0; i < chaptersTotal; i++) {
-            opt += '<tr><td id="chapter_' + (i + 1) + '">' + (i + 1) + '</td></tr>';
+            opt += '<option value="chapter_' + (i + 1) + '">' + (i + 1) + '</option>';
         }
-        $('#main_bible_chapters').html('<div style="height: 100%; overflow-x: hidden; overflow-y: scroll;" id="div_chapters"><table id="bible_chapters" width="35px" cellspacing="0" border="0" cellpadding="2"></table></div>');
+
         $('#bible_chapters').html(opt);
-        $('#chapter_1').addClass('selected');
+
 
         $('#main_bible_content').html('<div style="height: 100%; overflow-y: scroll; overflow-x: hidden;" id="bible_content"><table width="100%" id="content"></table></div>');
 
         loadBibleChapter(books[bookIndex], 1);
-
-        $('#div_chapters').slimScroll({
-            height: $(window).height() - $('#tabel_header').height() - 12
-        });
     });
 
-    $(document).on('click', "[id^='chapter']", function (event) {
-        $('#bible_chapters .selected').removeClass('selected');
-        $(this).css('cursor', 'pointer');
-        var chapterId = $(this).attr("id").replace('chapter_', '');
-        $("#chapter_" + chapterId).addClass('selected');
-
-        var chapterIndex = $(this).attr("id").replace('chapter_', '');
-        var bookIndex = $('#bible_books .selected').attr('id').replace('book_', '');
+    $(document).on('change', "#bible_chapters", function (event) {
+        var chapterIndex = $(this).find(":selected").val().replace('chapter_', '');
+        var bookIndex = $('#bible_books').find(":selected").val().replace('book_', '');
 		loadBibleChapter(books[bookIndex], parseInt(chapterIndex));
     });
 
     $("#read").on('click', function(event) {
         var value = $('#read').val();
         if (value == 'Read chapter') {
-            var text = $('#content').html();
-            text = text.replace('<div>', '');
-            text = text.replace('</div>', '');
-            text = text.replace('<b>', '');
-            text = text.replace('</b>', '');
-            chrome.tts.speak(text);
-            $('#read').val('Stop');
+			var chapterIndex = $('#bible_chapters').find(":selected").val().replace('chapter_', '') + '.0';
+			var bookIndex = $('#bible_books').find(":selected").text();
+			var view = getBibleView();
+
+			if (bookIndex != undefined && chapterIndex != undefined) {
+				if (view._database) {
+					view._database.transaction(function(query) {
+						query.executeSql("SELECT * FROM " + localStorage['bible_version'] + " WHERE carte = ? AND capitol = ?", [bookIndex, chapterIndex],
+
+							function(transaction, result) {
+								var total = result.rows.length;
+								for (var i = 0; i < total; i++) {
+									console.log(result.rows.item(i).text);
+									chrome.tts.speak(result.rows.item(i).text, {
+										lang: 'en-US',
+										enqueue: true,
+										gender: 'female',
+										rate: 0.9,
+										
+
+									});
+									// break;
+								}
+							}
+						)
+					});
+				}
+			}
+
+            $('#read').val('Stop Reading');
             
         } else {
             chrome.tts.stop();
@@ -203,6 +194,7 @@ $(document).ready(function() {
 					document.getElementById('content').innerHTML += '<br />'
 					for (var i = 0; i < total; i++) {			
 						var opt = document.createElement("div");
+						opt.className = 'verse';
 						opt.innerHTML = '<b>' + result.rows.item(i).carte + ' ' +  parseInt(result.rows.item(i).capitol) + ':' + parseInt(result.rows.item(i).verset) + "</b>" + ' ' + ' '  + result.rows.item(i).text;
 						document.getElementById('content').appendChild(opt);
 					}
@@ -220,13 +212,13 @@ $(document).ready(function() {
 			search_bible(q);
         }
     });
-	
-	$("#bible").change(function() {
-		localStorage['bible_version'] = $('#bible').val();
+
+	$(document).on('change', "#bible", function (event) {
+		localStorage['bible_version'] = $('#bible').find(":selected").val();
 		$('#content').children().remove();
 		
-		var bookIndex = $('#bible_books .selected').attr('id').replace('book_', '');
-        var chapterIndex = $('#bible_chapters .selected').attr('id').replace('chapter_', '');
+		var bookIndex = $('#bible_books').find(":selected").val().replace('book_', '');
+        var chapterIndex = $('#bible_chapters').find(":selected").val().replace('chapter_', '');
 
 		loadBibleChapter(books[bookIndex], chapterIndex);
 	});	

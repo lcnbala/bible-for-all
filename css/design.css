@@ -17,6 +17,15 @@ html, body {
     background-color: yellow;
 }
 
+.verse {
+    padding: 6px;
+    font-family: "Helvetica Neue",Arial,"Liberation Sans",FreeSans,sans-serif;
+    font-size: 19px;
+    font-weight: normal;
+    line-height: 2em;
+    cursor: pointer;
+}
+
 .verse:hover {
     background-color: #99ff99;
     cursor: pointer;

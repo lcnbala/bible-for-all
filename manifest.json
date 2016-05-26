@@ -1,6 +1,6 @@
 {
   "name": "Bible for all",
-  "version": "4",
+  "version": "6",
   "description": "The most complete Bible solution. It offers offline access to bible translations, voice reading and much more. Install and enjoy!",
   "icons": { 
     "16": "bible_icon_16.png", 
@@ -15,7 +15,7 @@
     "scripts": ["js/main.js"],
     "persistent": false
   },
-  "permissions": ["tts", "unlimitedStorage"],
+  "permissions": ["tts", "ttsEngine", "unlimitedStorage"],
   "tts_engine": {
     "voices": [
       {
