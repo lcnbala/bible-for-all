@@ -11,7 +11,7 @@ function add_remove(version, action) {
 			var view = views[i];
 			if (view.location.href == viewTabUrl) {
 				view._database.transaction(function(query) { query.executeSql("DROP TABLE " + version) }); 
-				document.getElementById(version).innerHTML = 'not installed'
+				document.getElementById(version).innerHTML = 'not installed';
 				break;
 			}
 		}
@@ -61,7 +61,7 @@ function onSuccess(tx, r) {
 
 function initialize() {
 	var view = getBibleView();		
-	view._database = window.openDatabase('bible_for_all_3', "", 'bible_for_all_3', 9999999999) 					
+	view._database = window.openDatabase('bible_for_all_3', "", 'bible_for_all_3', 9999999999);
 	if (current_version != localStorage['version']) {
 		view._database.transaction(function(query) { 
 			query.executeSql('DROP table en_kjv', []); 
@@ -115,7 +115,6 @@ $(document).ready(function() {
 
         $('#bible_chapters').html(opt);
 
-
         $('#main_bible_content').html('<div id="bible_content"><table width="100%" id="content"></table></div>');
 
         loadBibleChapter(books[bookIndex], 1);
@@ -147,11 +146,8 @@ $(document).ready(function() {
 										lang: 'en-US',
 										enqueue: true,
 										gender: 'female',
-										rate: 0.9,
-
-
+										rate: 0.9
 									});
-									// break;
 								}
 							}
 						)
